@@ -6,7 +6,12 @@
 
 %%
 
-"int"	{printf("%s: TYPE\n", yytext);}
+"int"|"char"	{ printf("%s: TYPE\n", yytext); }
+";"	{ printf("%s: SEMICOLON\n", yytext); }
+"="	{ printf("%s: EQUAL\n", yytext); }
+
+\n    ++lines; ++chars;
+.     ++chars;
 
 %%
 
