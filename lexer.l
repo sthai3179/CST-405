@@ -6,12 +6,15 @@
 
 %%
 
-"int"|"char"	{ printf("%s: TYPE\n", yytext); }
+"int"|"char"|"float"	{ printf("%s: TYPE\n", yytext); }
 ";"	{ printf("%s: SEMICOLON\n", yytext); }
 "="	{ printf("%s: EQUAL\n", yytext); }
+[0-9]+	{ printf("%s: INTEGER\n", yytext); }
+[a-z][a-zA-Z0-9]*	{ printf("%c: IDENTIFIER\n"); }
+"return"|"read"|"write"|"break"|"if"|"else"|"while"	{ printf("%s: KEYWORD\n", yytext); }
 
-\n    ++lines; ++chars;
-.     ++chars;
+\n    lines++; chars++;
+.     chars++;
 
 %%
 
@@ -32,3 +35,4 @@ int main(int argc, char **argv )
 	
 	return 0;
 }
+
