@@ -1,20 +1,34 @@
 %{    
 	int lines = 0;
+	int words = 0;
 	int chars = 0;
 %}
 
 
 %%
 
-"int"|"char"|"float"	{ printf("%s: TYPE\n", yytext); }
-";"	{ printf("%s: SEMICOLON\n", yytext); }
-"="	{ printf("%s: EQUAL\n", yytext); }
-[0-9]+	{ printf("%s: INTEGER\n", yytext); }
-[a-z][a-zA-Z0-9]*	{ printf("%c: IDENTIFIER\n"); }
-"return"|"read"|"write"|"break"|"if"|"else"|"while"	{ printf("%s: KEYWORD\n", yytext); }
+"int"|"char"	{ words++, chars += strlen(yytext);
+			printf("%s : TYPE\n", yytext); }
+"write"|"return" {words++; chars += strlen(yytext);
+			printf("%s : KEYWORD\n", yytext);}
+[a-zA-Z]+ {words++, chars += strlen(yytext);
+			printf("%s : IDENTIFIER\n", yytext);}
+[1-9][0-9]* {words++; chars += strlen(yytext);
+			printf("%s : NUMBER\n", yytext);}
+[0][1-9] {words++; chars += strlen(yytext);
+			printf("%s : Possible illegal number format.\nI think you meant to type a number and inadverdetently typed a ZERO on the first line %d char %d\n", yytext, lines, chars);}
+"+"|"-"|"*"|"/" {words++; chars += strlen(yytext);
+			printf("%s : OPERATOR\n", yytext);}
 
-\n    lines++; chars++;
-.     chars++;
+"("	{chars++; printf("%s : LEFTPAR\n", yytext);}
+")"	{chars++; printf("%s : RIGHTPAR\n", yytext);}
+"{"	{chars++; printf("%s : LEFTBRA\n", yytext);}
+"}"	{chars++; printf("%s : RIGHTBRA\n", yytext);}
+";"	{ printf("%s : SEMICOLON\n", yytext); }
+"="	{ printf("%s : EQUAL\n", yytext); }
+
+\n    ++lines; ++chars;
+.     ++chars;
 
 %%
 
@@ -35,4 +49,5 @@ int main(int argc, char **argv )
 	
 	return 0;
 }
+
 
