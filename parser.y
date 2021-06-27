@@ -20,6 +20,7 @@ void yyerror(const char* s);
 %token UOPERATOR
 %token LEFTBRACK
 %token RIGHTBRACK
+%token STATEMENT
 
 %start Program
 
@@ -36,22 +37,23 @@ FuncDeclList:
 	| Expr FuncDeclList
 ;
 
-ParamDeclList:
+/*ParamDeclList:
 	| ParamDeclListTail
 ;
 
 ParamDeclListTail:
 ParamDecl
 ;
+*/
 
-/*ExprList WIP*/
 ExprList:
 	| ExprListTail
 ;
 
-/*ExprListTail WIP*/
+
 ExprListTail:
-Expr | Expr COMMA ExprListTail
+	Expr 
+	| Expr COMMA ExprListTail
 ;
 
 /*StmtList WIP*/
@@ -66,11 +68,11 @@ VarDecl:	TYPE ID SEMICOLON	{ printf("\n RECOGNIZED RULE: Variable declaration %d
 Expr:	
 	ID EQ ID SEMICOLON	{ printf("\n RECOGNIZED RULE: ID EQ ID SEMICOLON\n"); }
 	| ID EQ NUMBER SEMICOLON	{ printf("\n RECOGNIZED RULE: ID EQ ID SEMICOLON\n"); }
-	| ID BinOp ID SEMICOLON{ printf("\n RECOGNIZED RULE: Expr BinOp Expr\n"); }
-	/*| Expr BinOp Expr SEMICOLON{ printf("\n RECOGNIZED RULE: Expr BinOp Expr\n"); }*/
+	| ID BinOp ID SEMICOLON{ printf("\n RECOGNIZED RULE: ID BinOp ID\n"); }
+	| Expr BinOp Expr SEMICOLON{ printf("\n RECOGNIZED RULE: Expr BinOp Expr\n"); }
 	| UnaryOp Expr { printf("\n RECOGNIZED RULE: UnaryOp Expr\n"); }
 	| ID EQ Expr 	{ printf("\n RECOGNIZED RULE: ID EQ Expr\n"); }
-	| ID [Expr] EQ Expr { printf("\n RECOGNIZED RULE: ID [Expr] EQ Expr\n");} 
+	| ID LEFTBRACK Expr RIGHTBRACK EQ Expr { printf("\n RECOGNIZED RULE: ID [Expr] EQ Expr\n");} 
 	| TYPE ID LEFTBRACK RIGHTBRACK { printf("\n RECOGNIZED RULE: Parameter Declaration\n"); }
 	| TYPE ID { printf("\n RECOGNIZED RULE: Parameter Declaration\n"); }
 	
@@ -78,13 +80,15 @@ Expr:
 
 /*Stmt WIP*/
 Stmt:
-	|SEMICOLON
-	|Expr SEMICOLON
+	/*SEMICOLON {printf("RECOGNIZED RULE: Statement");}
+	|Expr SEMICOLON {printf("RECOGNIZED RULE: Statement");}*/
+	|STATEMENT Expr SEMICOLON {printf("RECOGNIZED RULE: Statement");}
+	|STATEMENT SEMICOLON {printf("RECOGNIZED RULE: Statement");}
 ;
 
 /*ParamDecl WIP*/
-ParamDecl: TYPE ID LEFTBRACK RIGHTBRACK	{printf("\nRECOGNIZED RULE: Parameter Decl %d\n", $2);}
-;
+/*ParamDecl: TYPE ID LEFTBRACK RIGHTBRACK	{printf("\nRECOGNIZED RULE: Parameter Decl %d\n", $2);}
+;*/
 
 BinOp: 
 	OPERATOR 
@@ -94,10 +98,12 @@ BinOp:
 UnaryOp:
 	UOPERATOR
 ;
-/*Stmt WIP*/
-Stmt:
-	SEMICOLON {printf("\nRECOGNIZED RULE: Stmt %d\n");}
+
+/*Block WIP*/
+Block:
+	VarDeclList StmtList
 ;
+
 
 
 

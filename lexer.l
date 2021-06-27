@@ -73,5 +73,9 @@ int lines = 0;
                 	printf("%s : Unrecognized symbol at line %d char %d\n", yytext,lines,chars);
 		}
 
+"return"|"read id"|"write"|"writeln"|"break"|"if"|"else"|"while" {words++, chars += strlen(yytext);
+			printf("%s : STATEMENT\n", yytext);
+			return STATEMENT;
+		}
 
 %%
