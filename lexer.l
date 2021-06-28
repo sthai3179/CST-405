@@ -55,12 +55,26 @@ int lines = 0;
 			return OPERATOR;
 }
 
+"(" {words++; chars += strlen(yytext);
+			printf("%s : LEFTPAR\n", yytext);
+			return LEFTPAR;}
+")" {words++; chars += strlen(yytext);
+			printf("%s : RIGHTPAR\n", yytext);
+			return RIGHTPAR;}
+
 "[" {words++; chars += strlen(yytext);
 			printf("%s : LEFTBRACK\n", yytext);
 			return LEFTBRACK;}
 "]" {words++; chars += strlen(yytext);
 			printf("%s : RIGHTBRACK\n", yytext);
 			return RIGHTBRACK;}
+
+"{" {words++; chars += strlen(yytext);
+			printf("%s : LEFTCURL\n", yytext);
+			return LEFTCURL;}
+"}" {words++; chars += strlen(yytext);
+			printf("%s : RIGHTCURL\n", yytext);
+			return RIGHTCURL;}
 
 
 "!" {words++; chars += strlen(yytext);

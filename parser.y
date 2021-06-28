@@ -18,8 +18,12 @@ void yyerror(const char* s);
 %token NUMBER
 %token OPERATOR
 %token UOPERATOR
+%token LEFTPAR
+%token RIGHTPAR
 %token LEFTBRACK
 %token RIGHTBRACK
+%token LEFTCURL
+%token RIGHTCURL
 %token STATEMENT
 
 %start Program
@@ -84,6 +88,7 @@ Stmt:
 	|Expr SEMICOLON {printf("RECOGNIZED RULE: Statement");}*/
 	|STATEMENT Expr SEMICOLON {printf("RECOGNIZED RULE: Statement");}
 	|STATEMENT SEMICOLON {printf("RECOGNIZED RULE: Statement");}
+	|Block {printf("RECOGNIZED RULE: Statement");}
 ;
 
 /*ParamDecl WIP*/
@@ -101,7 +106,7 @@ UnaryOp:
 
 /*Block WIP*/
 Block:
-	VarDeclList StmtList
+	LEFTCURL VarDeclList StmtList RIGHTCURL
 ;
 
 
